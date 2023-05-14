@@ -2,9 +2,8 @@
   description = "Falling sand simulation written in Janet";
 
   inputs = {
-    /* nixpkgs = { url = "github:NixOS/nixpkgs/nixos-22.11"; }; */
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
-    flake-utils = { url = "github:numtide/flake-utils"; };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
