@@ -1,0 +1,7 @@
+(declare-project
+  :name "sand" # required
+  :description "falling sand simulator" 
+
+  :dependencies [
+    "git@github.com:janet-lang/jaylib.git"
+  ])
