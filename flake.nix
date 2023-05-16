@@ -33,6 +33,7 @@
           ]);
 
         shellHook = ''
+          export JANET_PATH=./jpm_tree/lib
         '';
       };
     });
