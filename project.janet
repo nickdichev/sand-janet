@@ -3,5 +3,6 @@
   :description "falling sand simulator" 
 
   :dependencies [
-    "git@github.com:janet-lang/jaylib.git"
-  ])
+                 "git@github.com:janet-lang/jaylib.git"
+                 "git@github.com:janet-lang/spork.git"])
+  
