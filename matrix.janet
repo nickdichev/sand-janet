@@ -5,7 +5,7 @@
     (do
      (for r 0 num-rows
        (put rows r (array/new-filled num-cols nil)))
-     @{:num-rows num-rows :num-cols num-cols :data rows})))
+     @{:rows num-rows :cols num-cols :data rows})))
       
   
 (defn place-element [matrix x y element]
@@ -21,9 +21,9 @@
   (if element (draw-pixel x y (element/color element))))
 
 (defn render [matrix draw-pixel]
-  (let [{:num-rows num-rows :num-cols num-cols} matrix]
-    (for r 0 num-rows
-      (for c 0 num-cols
+  (let [{:rows rows :cols cols} matrix]
+    (for r 0 rows
+      (for c 0 cols
         (let [element (get-element matrix r c)]
           (render-element element r c draw-pixel))))))
     
