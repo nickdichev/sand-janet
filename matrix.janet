@@ -9,9 +9,11 @@
       
   
 (defn place-element [matrix x y element]
-  (let [row (get (matrix :data) x)
-        new-col (put row y element)]
-    (put matrix x new-col)))
+  (let [data (matrix :data)
+        row (get data x)
+        new-col (put row y element)
+        new-data (put data x new-col)]
+    (put matrix :data new-data)))
 
 (defn get-element [matrix x y]
   (let [row (get (matrix :data) x)]
