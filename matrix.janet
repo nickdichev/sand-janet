@@ -19,6 +19,9 @@
   (let [row (get (matrix :data) x)]
     (in row y)))
 
+(defn empty? [matrix x y]
+  (nil? (get-element matrix x y)))
+
 (defn render-element [element x y draw-pixel]
   (if element (draw-pixel x y (element/color element))))
 
@@ -28,7 +31,20 @@
       (let [element (get-element matrix r c)]
         (render-element element r c draw-pixel)))))
 
-(def matrix (new 4 4))
-(place-element matrix 0 0 1)
-(place-element matrix 2 2 1)
-(place-element matrix 3 3 1)
+(defn translate-coord [r c [dx dy]]
+  (tuple (+ r dx) (+ c dy)))
+
+(defn find-valid-translation [translations r c]
+  (let [translations (map |(translate-coord r c $) translations)]))
+
+(defn step [matrix]
+  (let [{:rows rows :cols cols} matrix
+        data (matrix :data)]
+    (loop [r :range [0 rows]
+           c :range [0 cols]
+           :when (not (empty? matrix r c))]
+      (let [element (get-element matrix r c)
+            translations (element/step-translations element)
+            [[new-x new-y]] (find-valid-translation translations r c)]
+        (place-element matrix new-x new-y element)))))
+        # (place-element matrix r c nil))))) 
