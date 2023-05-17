@@ -1,3 +1,5 @@
+(import ./element)
+
 (defn new [num-rows num-cols]
   (let [rows (array/new num-rows)]
     (do
@@ -15,19 +17,15 @@
   (let [row (get (matrix :data) x)]
     (in row y)))
 
-(use jaylib)
-(import ./element)
-
-(defn render-element [element x y]
+(defn render-element [element x y draw-pixel]
   (if element (draw-pixel x y (element/color element))))
 
-(defn render [matrix]
-  (clear-background [0 0 0])
+(defn render [matrix draw-pixel]
   (let [{:num-rows num-rows :num-cols num-cols} matrix]
     (for r 0 num-rows
       (for c 0 num-cols
         (let [element (get-element matrix r c)]
-          (render-element element r c))))))
+          (render-element element r c draw-pixel))))))
     
 
 (def matrix (new 4 4))

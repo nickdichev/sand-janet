@@ -17,6 +17,7 @@
 
 (begin-drawing)
 (while (not (window-should-close))
-  (matrix/render matrix)
+  (clear-background [0 0 0])
+  (matrix/render matrix draw-pixel)
   (end-drawing))
 (close-window)
