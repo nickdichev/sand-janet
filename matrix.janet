@@ -3,7 +3,7 @@
 (defn new [num-rows num-cols]
   (let [rows (array/new num-rows)]
     (do
-     (for r 0 num-rows
+     (loop [r :range [0 num-rows]]
        (put rows r (array/new-filled num-cols nil)))
      @{:rows num-rows :cols num-cols :data rows})))
       
@@ -24,11 +24,9 @@
 
 (defn render [matrix draw-pixel]
   (let [{:rows rows :cols cols} matrix]
-    (for r 0 rows
-      (for c 0 cols
-        (let [element (get-element matrix r c)]
-          (render-element element r c draw-pixel))))))
-    
+    (loop [r :range [0 rows] c :range [0 cols]]
+      (let [element (get-element matrix r c)]
+        (render-element element r c draw-pixel)))))
 
 (def matrix (new 4 4))
 (place-element matrix 0 0 1)
