@@ -5,7 +5,9 @@
 
 (def rows 256)
 (def cols 256)
+
 (def matrix (matrix/new rows cols))
+(loop [r :range [0 rows]] (matrix/place-element matrix r (dec cols) (element/new :brick)))
 
 (init-window rows cols "Test Game")
 (set-target-fps 60)

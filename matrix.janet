@@ -21,7 +21,7 @@
   (let [row (get (matrix :data) x)]
     (in row y)))
 
-(defn empty? [matrix x y]
+(defn empty? [matrix [x y]]
   (nil? (get-element matrix x y)))
 
 (defn render-element [element x y draw-pixel]
@@ -33,20 +33,37 @@
       (let [element (get-element matrix r c)]
         (render-element element r c draw-pixel)))))
 
+(defn null-translation? [[dx dy]]
+  (and (= dx 0) (= dy 0)))
+
 (defn translate-coord [x y [dx dy]]
   (tuple (+ x dx) (+ y dy)))
 
-(defn find-valid-translation [translations r c]
-  (let [translations (map |(translate-coord r c $) translations)]))
+(defn find-valid-translation [matrix step-translations r c]
+  (->> step-translations
+       (filter |(or (empty? matrix (translate-coord r c $)) (null-translation? $)))
+       (first)))
 
+(defn should-redraw? [[x y] [r c]]
+  (or (not= x r) (not= y c)))
+
+(defn move-element [matrix element [x1 y1] [x2 y2]]
+  (place-element matrix x2 y2 element)
+  (clear-element matrix x1 y1))
+       
 (defn step [matrix]
   (let [{:rows rows :cols cols} matrix
         data (matrix :data)]
     (loop [r :down-to [(dec rows) 0]
            c :down-to [(dec cols) 0]
-           :when (not (empty? matrix r c))]
+           :when (not (empty? matrix [r c]))]
       (let [element (get-element matrix r c)
-            translations (element/step-translations element)
-            [[new-x new-y]] (find-valid-translation translations r c)]
-        (place-element matrix new-x new-y element)
-        (clear-element matrix r c)))))
+            step-translations (element/step-translations element)
+            translation (find-valid-translation matrix step-translations r c)
+            [x y] (translate-coord r c translation)]
+        (if (should-redraw? [x y] [r c])
+          (move-element matrix element [r c] [x y]))))))
+    
+         
+          
+                                                 
