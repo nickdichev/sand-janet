@@ -19,9 +19,16 @@
   (clear-background [0 0 0])
   (draw-fps 50 50)
 
-  (if (mouse-button-pressed? :left)
-    (let [[x y] (get-mouse-position)]
-      (matrix/place-element matrix (math/floor x) (math/floor y) (element/new :sand))))
+  (let [[x y] (get-mouse-position)
+        x (math/floor x)
+        y (math/floor y)]
+    (draw-circle x y 4 :light-gray)
+
+    (if (mouse-button-down? :left)
+      (matrix/place-element matrix x y (element/new :sand)))
+
+    (if (mouse-button-down? :right)
+      (matrix/place-element matrix x y (element/new :water))))
 
   (matrix/step matrix)
   (matrix/render matrix draw-pixel)
