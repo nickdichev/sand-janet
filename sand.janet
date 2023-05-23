@@ -7,7 +7,7 @@
 (def cols 256)
 
 (def matrix (matrix/new rows cols))
-(loop [r :range [0 rows]] (matrix/place-element matrix r (dec cols) (element/new :brick)))
+(loop [r :range [0 rows]] (matrix/place-element matrix [r (dec cols)] (element/new :brick)))
 
 (init-window rows cols "Test Game")
 (set-target-fps 60)
@@ -25,10 +25,10 @@
     (draw-circle x y 4 :light-gray)
 
     (if (mouse-button-down? :left)
-      (matrix/place-element matrix x y (element/new :sand)))
+      (matrix/place-element matrix [x y] (element/new :sand)))
 
     (if (mouse-button-down? :right)
-      (matrix/place-element matrix x y (element/new :water))))
+      (matrix/place-element matrix [x y] (element/new :water))))
 
   (matrix/step matrix)
   (matrix/render matrix draw-pixel)
