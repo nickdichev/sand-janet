@@ -8,13 +8,13 @@
     :brick :dark-gray))
 
 (defn water-translation []
-  [[0 1] [-1 0] [1 0] [0 0]])
+  (tuple [0 1] [-1 0] [1 0] [0 0]))
 
 (defn sand-translation []
-  [[0 1] [-1 1] [1 1] [0 0]])
+  (tuple [0 1] [-1 1] [1 1] [0 0]))
 
 (defn stationary-translation []
-  [[0 0]])
+  (tuple [0 0]))
 
 (defn step-translations [element]
   (case (element :type)
