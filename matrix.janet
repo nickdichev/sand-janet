@@ -1,28 +1,40 @@
 (import ./element)
 
-(defn new [num-rows num-cols]
+(defn new-matrix [num-rows num-cols]
   (let [rows (array/new num-rows)]
-    (do
-     (loop [r :range [0 num-rows]]
-       (put rows r (array/new-filled num-cols nil)))
-     @{:rows num-rows :cols num-cols :data rows})))
-      
+     (do
+       (loop [r :range [0 num-rows]]
+         (put rows r (array/new-filled num-cols nil))))
+     rows))
+
+(defn new [num-rows num-cols]
+     @{:rows num-rows
+       :cols num-cols
+       :elements (new-matrix num-rows num-cols)})
+
+(defn place [matrix-data [x y] item]
+  (let [row (get matrix-data x)
+        new-col (put row y item)]
+    (put matrix-data x new-col)))
+
 (defn place-element [matrix [x y] element]
-  (let [data (matrix :data)
-        row (get data x)
-        new-col (put row y element)
-        new-data (put data x new-col)]
-    (put matrix :data new-data)))
+  (let [elements (matrix :elements)
+        new-elements (place elements [x y] element)]
+    (put matrix :elements new-elements)))
 
 (defn clear-element [matrix [x y]]
   (place-element matrix [x y] nil))
 
 (defn get-element [matrix [x y]]
-  (let [row (get (matrix :data) x)]
+  (let [row (get (matrix :elements) x)]
     (in row y)))
 
 (defn empty? [matrix [x y]]
   (nil? (get-element matrix [x y])))
+
+(defn color [matrix [x y]]
+  (let [element (get-element matrix [x y])]
+    (if (nil? element) :black (element/color element))))
 
 (defn render-element [element x y draw-pixel]
   (if element (draw-pixel x y (element/color element))))
@@ -51,7 +63,7 @@
        
 (defn step [matrix]
   (let [{:rows rows :cols cols} matrix
-        data (matrix :data)]
+        elements (matrix :elements)]
     (loop [r :down-to [(dec rows) 0]
            c :down-to [(dec cols) 0]
            :when (not (empty? matrix [r c]))]
