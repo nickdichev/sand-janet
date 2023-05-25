@@ -36,15 +36,6 @@
   (let [element (get-element matrix [x y])]
     (if (nil? element) :black (element/color element))))
 
-(defn render-element [element x y draw-pixel]
-  (if element (draw-pixel x y (element/color element))))
-
-(defn render [matrix draw-pixel]
-  (let [{:rows rows :cols cols} matrix]
-    (loop [r :range [0 rows] c :range [0 cols]]
-      (let [element (get-element matrix [r c])]
-        (render-element element r c draw-pixel)))))
-
 (defn translate-coord [[x y] [dx dy]]
   (tuple (+ x dx) (+ y dy)))
 
