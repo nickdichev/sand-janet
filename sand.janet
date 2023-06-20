@@ -40,7 +40,7 @@
   (let [[x y] (get-mouse-position)
         x (math/floor x)
         y (math/floor y)]
-    (draw-circle ;(scale [x y]) 4 :light-gray)
+    (draw-circle ;[x y] 4 :light-gray)
 
     (if (mouse-button-down? :left)
       (matrix/place-element matrix (descale [x y]) (element/new :sand)))
