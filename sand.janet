@@ -10,7 +10,7 @@
 (def scale-factor 4)
 
 (def matrix (matrix/new rows cols))
-(loop [r :range [0 rows]] (matrix/place-element matrix [r (dec cols)] (element/new :brick)))
+(loop [r :range [0 rows]] (matrix/place-element matrix [r (dec cols)] (element/brick)))
 
 (defn scale [[x y]]
   (tuple (* x scale-factor) (* y scale-factor)))
@@ -43,10 +43,10 @@
     (draw-circle ;[x y] 4 :light-gray)
 
     (if (mouse-button-down? :left)
-      (matrix/place-element matrix (descale [x y]) (element/new :sand)))
+      (matrix/place-element matrix (descale [x y]) (element/sand)))
 
     (if (mouse-button-down? :right)
-      (matrix/place-element matrix (descale [x y]) (element/new :water))))
+      (matrix/place-element matrix (descale [x y]) (element/water))))
 
   (matrix/step matrix)
   (render matrix)

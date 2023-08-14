@@ -34,7 +34,7 @@
 
 (defn color [matrix [x y]]
   (let [element (get-element matrix [x y])]
-    (if (nil? element) :black (element/color element))))
+    (if (nil? element) :black (element :color))))
 
 (defn translate-coord [[x y] [dx dy]]
   (tuple (+ x dx) (+ y dy)))
@@ -59,11 +59,13 @@
            c :down-to [(dec cols) 0]
            :when (not (empty? matrix [r c]))]
       (let [element (get-element matrix [r c])
-            step-translations (element/step-translations element)
+            step-translations (element :translation)
             [x y] (find-valid-translation matrix step-translations [r c])]
         (if (should-redraw? [x y] [r c])
           (move-element matrix element [r c] [x y]))))))
     
+
+# re-write find-valid-translation to look at the current (r,c) and all surrounding neighbors. this will allow sand to fall down in water
          
           
                                                  
