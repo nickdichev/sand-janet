@@ -5,9 +5,9 @@
 
 (def rows 256)
 (def cols 256)
-(def screen-width 1024)
-(def screen-height 1024)
 (def scale-factor 4)
+(def screen-width (* rows scale-factor))
+(def screen-height (* cols scale-factor))
 
 (def matrix (matrix/new rows cols))
 (loop [r :range [0 rows]] (matrix/place-element matrix [r (dec cols)] (element/brick)))
