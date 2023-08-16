@@ -1,33 +1,36 @@
 (import ./element)
 
-(defn new-matrix [num-rows num-cols]
-  (let [rows (array/new num-rows)]
-     (do
-       (loop [r :range [0 num-rows]]
-         (put rows r (array/new-filled num-cols nil))))
-     rows))
+(defn- to1D [matrix [x y]]
+  (let [cols (matrix :cols)]
+    (+ (* x cols) y)))
+
+(defn- to2d [matrix i]
+  (let [cols (matrix :cols)
+        x (/ i cols)
+        y (mod i cols)]
+    [(math/floor x) y]))
 
 (defn new [num-rows num-cols]
      @{:rows num-rows
        :cols num-cols
-       :elements (new-matrix num-rows num-cols)})
+       :elements (array/new-filled (* num-rows num-cols))})
 
-(defn place [matrix-data [x y] item]
-  (let [row (get matrix-data x)
-        new-col (put row y item)]
-    (put matrix-data x new-col)))
+(defn- place [matrix [x y] item]
+  (let [elements (matrix :elements)
+        i (to1D matrix [x y])
+        new-elements (put elements i item)]
+    (put matrix :elements new-elements)))
 
 (defn place-element [matrix [x y] element]
-  (let [elements (matrix :elements)
-        new-elements (place elements [x y] element)]
-    (put matrix :elements new-elements)))
+  (place matrix [x y] element))
 
 (defn clear-element [matrix [x y]]
   (place-element matrix [x y] nil))
 
 (defn get-element [matrix [x y]]
-  (let [row (get (matrix :elements) x)]
-    (in row y)))
+  (let [i (to1D matrix [x y])
+        elements (matrix :elements)]
+    (in elements i)))
 
 (defn empty? [matrix [x y]]
   (nil? (get-element matrix [x y])))
@@ -67,5 +70,13 @@
 
 # re-write find-valid-translation to look at the current (r,c) and all surrounding neighbors. this will allow sand to fall down in water
          
-          
-                                                 
+(use judge)
+
+(test (to1D (new 4 4) [0 0]) 0)
+(test (to1D (new 4 4) [1 3]) 7)
+(test (to1D (new 4 4) [3 3]) 15)
+
+(test (to2d (new 4 4) 0) [0 0])
+(test (to2d (new 4 4) 7) [1 3])
+(test (to2d (new 4 4) 15) [3 3])
+
