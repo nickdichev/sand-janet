@@ -25,7 +25,7 @@
   (place matrix [x y] element))
 
 (defn clear-element [matrix [x y]]
-  (place-element matrix [x y] nil))
+  (place matrix [x y] nil))
 
 (defn get-element [matrix [x y]]
   (let [i (to1D matrix [x y])
