@@ -13,3 +13,12 @@ build/
 jpm_tree/
 
 # End of https://www.toptal.com/developers/gitignore/api/direnv,janet
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
